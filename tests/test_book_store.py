@@ -43,12 +43,14 @@ def test_full_api_flow(api_client, user_data):
     authorized_response = api_client.is_authorized(username, PASSWORD)
     assert authorized_response.status_code == 200
     assert authorized_response.text == "true"
+    print("\n autorização do usuário validada com sucesso.")
 
     # lista os livros e valida se existem livros cadastrados
     books_response = api_client.get_all_books()
     assert books_response.status_code == 200
     all_books = books_response.json()["books"]
     assert len(all_books) >= 2
+    print("\n lista de livros obtida com sucesso.")
 
     # seleciona e adiciona dois livros
     books_to_add = all_books[:2]
@@ -56,6 +58,7 @@ def test_full_api_flow(api_client, user_data):
     add_books_response = api_client.add_books_to_user(user_id, token, books_isbns)
     # valida se os livros foram adicionados com sucesso
     assert add_books_response.status_code == 201
+    print("\n livros adicionados à conta do usuário com sucesso.")
 
     # lista os detalhes do usuário para validação final
     user_info_response = api_client.get_user_info(user_id, token)
@@ -66,3 +69,6 @@ def test_full_api_flow(api_client, user_data):
     added_isbns = {book["isbn"] for book in user_books}
     for isbn in books_isbns:
         assert isbn in added_isbns
+        print("\n validação final de que os livros estão no perfil do usuário.")
+
+    print("\n desafio de API concluído com sucesso!")
