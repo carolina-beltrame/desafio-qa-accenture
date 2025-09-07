@@ -1,0 +1,6 @@
+# abaixo estão todas as dependências do projeto 
+# para instalar, rode o comando 'pip install -r requirements.txt'
+selenium
+webdriver-manager
+pytest
+requests 
