@@ -63,12 +63,22 @@ def test_full_api_flow(api_client, user_data):
     # lista os detalhes do usuário para validação final
     user_info_response = api_client.get_user_info(user_id, token)
     assert user_info_response.status_code == 200
+    user_info = user_info_response.json()
     user_books = user_info_response.json()["books"]
 
     # valida se os livros adicionados estão no perfil do usuário
     added_isbns = {book["isbn"] for book in user_books}
+
+    print("\n Detalhes do Usuário e Livros Alugados")
+    print(f"  - User ID: {user_info['userId']}")
+    print(f"  - Nome do Usuário: {user_info['username']}")
+    print("   - Livros Alugados:")
+    for book in user_books:
+        print(f"  - Título: {book['title']}, Autor: {book['author']}, ISBN: {book['isbn']}")
+
     for isbn in books_isbns:
         assert isbn in added_isbns
-        print("\n validação final de que os livros estão no perfil do usuário.")
-
+        
+    print("\n validação final de que os livros estão no perfil do usuário.")
     print("\n desafio de API concluído com sucesso!")
+
